@@ -1,0 +1,8 @@
+queue:
+- name: my-pull-queue
+  mode: pull
+
+queue:
+- name: my-appengine-queue
+  target: default
+  rate: 1/s

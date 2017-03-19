@@ -41,6 +41,12 @@ public class CloudTasksPullSnippetsIT {
   /** The project ID of the project created for the integration tests. */
   public static final String TEST_LOCATION_ID = System.getenv("LOCATION_ID");
 
+  public static final String TEST_QUEUE_ID = System.getenv("PULL_QUEUE_ID");
+
+  public static final String TEST_QUEUE_NAME =
+          "projects/" + TEST_PROJECT_ID + "/locations/"
+                  + TEST_LOCATION_ID + "/queues/" + TEST_QUEUE_ID;
+
   /** Cloud Tasks pull queue samples to run through integration tests. */
   private CloudTasksPullQueueSnippets snippets;
 
@@ -64,7 +70,7 @@ public class CloudTasksPullSnippetsIT {
    */
   @Test
   public void testCreateTask() throws Exception {
-    Queue queue = snippets.listQueues().get(0);
+    Queue queue = new Queue().setName(TEST_QUEUE_NAME);
     Task task = snippets.createTask(queue);
     assertThat(task.getName()).contains(queue.getName());
   }
@@ -76,14 +82,15 @@ public class CloudTasksPullSnippetsIT {
    */
   @Test
   public void testPullAndAckTask() throws Exception {
-    Queue queue = snippets.listQueues().get(0);
+    Queue queue = new Queue();
+    queue.setName(TEST_QUEUE_NAME);
     Task task = snippets.pullTask(queue);
     snippets.acknowledgeTask(task);
   }
 
   @Test
   public void testMainRunner() throws Exception {
-    String[] args = {TEST_PROJECT_ID, TEST_LOCATION_ID};
+    String[] args = {TEST_PROJECT_ID, TEST_LOCATION_ID, TEST_QUEUE_ID};
     ByteArrayOutputStream os = new ByteArrayOutputStream();
     snippets.runner(args, new PrintStream(os));
     String output = os.toString();

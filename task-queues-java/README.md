@@ -71,10 +71,11 @@ Set the following environment variables
 
     export GOOGLE_CLOUD_PROJECT=your-google-cloud-project-id
     export LOCATION_ID=us-central1
+    export QUEUE_ID=my-pull-queue
 
 Run:
 
-    ./run_pull_queue_example.sh $GOOGLE_CLOUD_PROJECT $LOCATION_ID
+    ./run_pull_queue_example.sh $GOOGLE_CLOUD_PROJECT $LOCATION_ID $QUEUE_ID
 
 The sample program will list queues, create a task, pull the task, and
 acknowledge the task.
@@ -129,7 +130,8 @@ Set the environment variable to your project variables:
 
     export GOOGLE_CLOUD_PROJECT=your-google-cloud-project-id
     export LOCATION_ID=us-central1
-    export QUEUE_ID=my-appengine-queue
+    export APPENGINE_QUEUE_ID=my-appengine-queue
+    export PULL_QUEUE_ID=my-pull-queue
 
 Then run:
 

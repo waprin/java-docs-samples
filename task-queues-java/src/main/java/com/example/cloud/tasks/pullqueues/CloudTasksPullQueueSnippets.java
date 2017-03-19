@@ -103,7 +103,7 @@ public class CloudTasksPullQueueSnippets {
    */
   public Task createTask(Queue queue) throws IOException {
     // Payloads must be base64 encoded
-    String encodedPayload = BaseEncoding.base32().encode(PAYLOAD.getBytes(Charsets.US_ASCII));
+    String encodedPayload = BaseEncoding.base64().encode(PAYLOAD.getBytes(Charsets.US_ASCII));
     PullTaskTarget pullTaskTarget = new PullTaskTarget().setPayload(encodedPayload);
     Task task = new Task().setPullTaskTarget(pullTaskTarget);
     CreateTaskRequest taskRequest = new CreateTaskRequest().setTask(task);
@@ -163,7 +163,7 @@ public class CloudTasksPullQueueSnippets {
    * @param os Output stream
    */
   public static void runner(String[] args, PrintStream os) throws Exception {
-    if (args.length != 2) {
+    if (args.length != 3) {
       System.err.println(
           String.format(
               "Usage: %s <project-name> <location_id>",
@@ -172,6 +172,9 @@ public class CloudTasksPullQueueSnippets {
     }
     String projectId = args[0];
     String locationId = args[1];
+    String queueId = args[2];
+    String queueName =
+            "projects/" + projectId + "/locations/" + locationId + "/queues/" + queueId;
 
     // Create an authenticated API client
     CloudTasks cloudTasksClient = Common.authenticate();
@@ -184,7 +187,7 @@ public class CloudTasksPullQueueSnippets {
       for (Queue q : queues) {
         os.println(q.getName());
       }
-      Queue queue = queues.get(0);
+      Queue queue = new Queue().setName(queueName);
       Task task = example.createTask(queue);
       os.println("Created task " + task.getName());
       task = example.pullTask(queue);

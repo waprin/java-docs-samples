@@ -39,10 +39,11 @@ public class CloudTasksAppEngineSnippetsIT {
   /** The project ID of the project created for the integration tests. */
   public static final String TEST_LOCATION_ID = System.getenv("LOCATION_ID");
 
-  public static final String TEST_QUEUE_ID = System.getenv("QUEUE_ID");
+  public static final String TEST_QUEUE_ID = System.getenv("APPENGINE_QUEUE_ID");
 
   public static final String TEST_QUEUE_NAME =
-      "projects/" + TEST_PROJECT_ID + "/locations/" + TEST_LOCATION_ID + "/queues/" + TEST_QUEUE_ID;
+      "projects/" + TEST_PROJECT_ID + "/locations/" + TEST_LOCATION_ID
+              + "/queues/" + TEST_QUEUE_ID;
 
   private static final String PAYLOAD = "TEST_PAYLOAD";
 

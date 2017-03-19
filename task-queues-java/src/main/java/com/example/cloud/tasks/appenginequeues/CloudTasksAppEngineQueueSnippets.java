@@ -27,7 +27,6 @@ import com.google.common.io.BaseEncoding;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import javax.xml.bind.DatatypeConverter;
 
 /** Snippets for creating Tasks with App Engine queue targets. */
 public class CloudTasksAppEngineQueueSnippets {
@@ -54,8 +53,7 @@ public class CloudTasksAppEngineQueueSnippets {
    * @param payload The payload to attach as HTTP post data.
    */
   public Task createAppEngineTask(String queueName, String payload) throws IOException {
-    String encodedPayload = DatatypeConverter.printBase64Binary(payload.getBytes());
-    String encodedPayload = BaseEncoding.base32().encode(payload.getBytes(Charsets.US_ASCII));
+    String encodedPayload = BaseEncoding.base64().encode(payload.getBytes(Charsets.US_ASCII));
 
     AppEngineTaskTarget aeTarget =
         new AppEngineTaskTarget()
